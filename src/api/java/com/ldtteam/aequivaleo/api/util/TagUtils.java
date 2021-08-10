@@ -3,6 +3,7 @@ package com.ldtteam.aequivaleo.api.util;
 import com.google.common.collect.Lists;
 import net.minecraft.tags.*;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -74,11 +75,12 @@ public final class TagUtils
 
     private static boolean isContainedIn(final ITagCollection<?> collection, final ITag.INamedTag<?> tag)
     {
+        final ITag<?> mainTag = (tag instanceof TagRegistry.NamedTag) ? ((TagRegistry.NamedTag<?>)tag).getTag() : tag;
         return collection.getIDTagMap()
           .entrySet()
           .stream()
           .filter(e -> e.getKey().equals(tag.getName()))
-          .anyMatch(e -> e.getValue() == tag);
+          .anyMatch(e -> e.getValue() == mainTag);
     }
 
     public static Optional<ITag.INamedTag<?>> getTag(final ResourceLocation tagCollectionName, final ResourceLocation location) {
